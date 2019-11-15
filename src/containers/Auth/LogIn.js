@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {StyleSheet, Text, View,TouchableOpacity, TextInput, Dimensions} from "react-native";
 const deviceWidth = Dimensions.get('window').width;
-import {loginAction} from "../../actions/userActions";
+import {loginAction,logUserInFacebook,logUserInGitHub} from "../../actions/userActions";
 import {connect} from "react-redux";
 class LogIn extends Component{
 
@@ -24,7 +24,7 @@ class LogIn extends Component{
     };
 
     render() {
-        const {user,navigation}=this.props;
+        const {user,navigation,logUserInFacebook,logUserInGitHub}=this.props;
         const {email,password}=this.state;
 
         const load = user.loading ? <View style={styles.loadBlock}>
@@ -70,6 +70,12 @@ class LogIn extends Component{
                 <TouchableOpacity style='registerBlock' onPress={()=>navigation.navigate('Register')}>
                     <Text style={styles.registerText}>Don't have an account?</Text>
                     <Text style={styles.registerTextNavigate}>Sign Up</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style='facebook' onPress={logUserInFacebook}>
+                    <Text>Facebook</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style='facebook' onPress={logUserInGitHub}>
+                    <Text>Git</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -159,6 +165,8 @@ const styles = StyleSheet.create({
 });
 LogIn.propTypes = {
     loginAction:PropTypes.func,
+    logUserInFacebook:PropTypes.func,
+    logUserInGitHub:PropTypes.func,
     loading:PropTypes.bool,
     error:PropTypes.string
 };
@@ -167,7 +175,9 @@ const mapStateToProps = state => ({
     user: state.user,
 });
 const mapDispatchToProps = {
-    loginAction
+    loginAction,
+    logUserInFacebook,
+    logUserInGitHub
 };
 export default connect(
     mapStateToProps,

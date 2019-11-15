@@ -1,5 +1,9 @@
 import fire from '../config/Fire'
-
+/*const FBSDK = require('react-native-fbsdk');
+const {
+    LoginManager,
+    AccessToken,
+} = FBSDK;*/
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
@@ -107,3 +111,42 @@ export const logout=()=>{
         });
     }
 };
+
+/*
+import { firebase } from '@firebase/app';
+
+import '@firebase/auth';
+
+export function logUserInFacebook() {
+    return (dispatch) => {
+        LoginManager.logInWithPermissions(['public_profile', 'user_friends', 'email'])
+            .then(
+                (result) => {
+                    if (result.isCancelled) {
+                        console.log('Whoops!', 'You cancelled the sign in.');
+                    } else {
+                        AccessToken.getCurrentAccessToken()
+                            .then((data) => {
+                                const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+                                firebase.auth().signInWithCredential(credential)
+                                    .then(()=>{
+                                        console.log('fullfield')
+                                    })
+                                    .catch((error) => {
+                                       console.log(error)
+                                    });
+                            });
+                    }
+                },
+                (error) => {
+                    console.log('Sign in error', error);
+                },
+            );
+    };
+}
+
+export function logUserInGitHub() {
+    return dispatch => {
+        const provider = new firebase.auth.GithubAuthProvider();
+    };
+}*/
