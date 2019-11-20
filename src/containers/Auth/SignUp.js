@@ -163,8 +163,7 @@ const styles = StyleSheet.create({
 });
 SignUp.propTypes = {
     registerAction:PropTypes.func,
-    loading:PropTypes.bool,
-    error:PropTypes.string
+    user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

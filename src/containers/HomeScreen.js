@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
-
 import {View} from "react-native";
 import {connect} from "react-redux";
 import {logout} from "../actions/userActions";
 import PropTypes from "prop-types";
-import LogOut from "./Auth/LogOut";
+import LogOut from "../components/Auth/LogOut";
 class HomeScreen extends Component {
+
+    static navigationOptions = {
+        title: 'Chats',
+    };
     state = {};
 
     render() {
@@ -18,6 +21,11 @@ class HomeScreen extends Component {
 
 }
 
+HomeScreen.propTypes={
+    logout:PropTypes.func,
+    user: PropTypes.object,
+};
+
 const mapStateToProps = state => ({
     user: state.user,
 });
@@ -25,9 +33,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     logout
 };
-HomeScreen.propTypes={
-    logout:PropTypes.func
-};
+
 
 export default connect(
     mapStateToProps,

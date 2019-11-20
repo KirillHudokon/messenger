@@ -1,30 +1,43 @@
 import React from 'react';
 import {createAppContainer, createSwitchNavigator} from "react-navigation";
 import { createStackNavigator } from 'react-navigation-stack';
-import HomeScreen from "../components/HomeScreen";
-import LoadingScreen from "../components/Auth/LoadingScreen";
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import HomeScreen from "./HomeScreen";
+import LoadingScreen from "./Auth/LoadingScreen";
 import Login from "./Auth/LogIn";
 import Register from "./Auth/SignUp";
-const AppStack = createStackNavigator({ Home: HomeScreen});
+import {Provider} from 'react-redux'
+import {store} from '../store/ConfigureStore'
+import Profile from "../components/Profile";
+import Settings from "../components/Settings";
+
+const Chats = createStackNavigator({
+    Home: HomeScreen
+},{
+    headerLayoutPreset: 'center'
+});
+
 const AuthStack = createStackNavigator({
     Login,
     Register
 });
-import {Provider} from 'react-redux'
-import {store} from '../store/ConfigureStore'
-let Navigation = createAppContainer(
-    createSwitchNavigator(
-        {
+
+const TabNavigator = createBottomTabNavigator({
+    Chats,
+    Profile,
+    Settings
+});
+
+const Navigation = createAppContainer(
+    createSwitchNavigator({
             AuthLoading: LoadingScreen,
-            App: AppStack,
             Auth: AuthStack,
+            Home: TabNavigator,
         },
         {
             initialRouteName: 'AuthLoading',
-        }
-    )
+        })
 );
-
 export default class App extends React.Component {
     render() {
         return (

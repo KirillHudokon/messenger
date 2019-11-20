@@ -8,7 +8,7 @@ class LoadingScreen extends Component {
 
     componentDidMount() {
         fire.auth().onAuthStateChanged(user => {
-            this.props.navigation.navigate(user ? 'App' : 'Auth')
+            this.props.navigation.navigate(user ? 'Home' : 'Auth')
         })
     }
     render() {
@@ -24,7 +24,8 @@ class LoadingScreen extends Component {
 }
 
 LoadingScreen.propTypes={
-    userListener:PropTypes.func
+    userListener:PropTypes.func,
+    user: PropTypes.object,
 };
 const mapStateToProps = state => ({
     user: state.user,

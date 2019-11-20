@@ -167,8 +167,7 @@ LogIn.propTypes = {
     loginAction:PropTypes.func,
     logUserInFacebook:PropTypes.func,
     logUserInGitHub:PropTypes.func,
-    loading:PropTypes.bool,
-    error:PropTypes.string
+    user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
