@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {StyleSheet, Text, View,TouchableOpacity, TextInput, Dimensions} from "react-native";
-const deviceWidth = Dimensions.get('window').width;
 import {loginAction,logUserInFacebook,logUserInGitHub} from "../../actions/userActions";
 import {connect} from "react-redux";
+
+const deviceWidth = Dimensions.get('window').width;
+
 class LogIn extends Component{
 
     static navigationOptions = {
