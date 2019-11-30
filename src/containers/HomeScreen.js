@@ -1,27 +1,31 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView, TextInput, StyleSheet, Dimensions,TouchableOpacity} from "react-native";
+import {View, Text, ScrollView,StyleSheet, Dimensions,TouchableOpacity} from "react-native";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import ProfileChatImage from "../components/ProfileChatImage";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {changeRoute} from "../actions/routerActions";
 const deviceWidth = Math.round(Dimensions.get('window').width);
 const deviceHeight = Math.round(Dimensions.get('window').height);
 
 class HomeScreen extends Component {
-
     static navigationOptions = {
-        title: 'Chats',
+        header:null
     };
     state = {
-        x:false
+        x:false,
     };
+    componentDidMount() {
+        const {navigation,changeRoute}=this.props;
+        navigation.addListener(
+            'willFocus',
+            payload => {
+                changeRoute(payload.state.routeName)
+            }
+        );
+    }
     render() {
         return this.state.x ? <ScrollView style={styles.container}>
             <View style={styles.searchContainer}>
-                <TextInput
-                    placeholder="Search for people"
-                    style={styles.search}
-                />
             </View>
             <TouchableOpacity style={styles.chat}>
                 <View style={styles.imageContainer}>
@@ -56,16 +60,6 @@ const styles = StyleSheet.create({
         backgroundColor:'blue',
         alignItems:'center',
         justifyContent:'center'
-    },
-    search: {
-        width:deviceWidth*0.95,
-        height:'70%',
-        backgroundColor:'white',
-        borderRadius:10,
-        paddingLeft:10,
-        paddingRight:0,
-        paddingTop:0,
-        paddingBottom:0
     },
     imageContainer:{
         marginRight:10,
@@ -142,17 +136,47 @@ const styles = StyleSheet.create({
     warningTextNoChats:{
         color:'grey',
         fontSize:16
+    },
+    searchIcon:{
+        flex:1,
+        padding: 10,
+        color:'black'
+    },
+    searchSection:{
+        width:deviceWidth*.95,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        height:'70%'
+    },
+    searchInput: {
+        flex:10,
+        paddingLeft: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+        color: '#424242',
+        fontSize:16,
+        alignItems: 'center',
+        height:'100%',
+        justifyContent:'center',
     }
 });
 HomeScreen.propTypes={
+    changeRoute:PropTypes.func,
     user: PropTypes.object,
+    router:PropTypes.object,
 };
 
 const mapStateToProps = state => ({
     user: state.user,
+    router:state.router
 });
 
-const mapDispatchToProps = null;
+const mapDispatchToProps = {
+    changeRoute
+};
+
 
 
 export default connect(

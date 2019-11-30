@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {StyleSheet, Text, View,TouchableOpacity, TextInput, Dimensions} from "react-native";
 import {loginAction,logUserInFacebook,logUserInGitHub} from "../../actions/userActions";
+import {changeRoute} from "../../actions/routerActions";
 import {connect} from "react-redux";
+
 
 const deviceWidth = Dimensions.get('window').width;
 
@@ -11,6 +13,16 @@ class LogIn extends Component{
     static navigationOptions = {
         header: null,
     };
+    componentDidMount() {
+        const {changeRoute,navigation} = this.props;
+        navigation.addListener(
+            'willFocus',
+            payload => {
+                changeRoute(payload.state.routeName)
+
+            }
+        )
+    }
     state = {
         email:'',
         password:'',
@@ -28,7 +40,6 @@ class LogIn extends Component{
     render() {
         const {user,navigation,logUserInFacebook,logUserInGitHub}=this.props;
         const {email,password}=this.state;
-
         const load = user.loading ? <View style={styles.loadBlock}>
             <Text style={styles.loadText}>Loading...</Text>
         </View> : null;
@@ -41,7 +52,6 @@ class LogIn extends Component{
             <View style={styles.mainBlock}>
                 <Text style={styles.title}>
                     Login
-
                 </Text>
                 <View style={styles.inputsContainer}>
                     <View style={styles.inputsAndIconSupBlock}>
@@ -169,6 +179,7 @@ LogIn.propTypes = {
     loginAction:PropTypes.func,
     logUserInFacebook:PropTypes.func,
     logUserInGitHub:PropTypes.func,
+    changeRoute:PropTypes.func,
     user: PropTypes.object,
 };
 
@@ -178,7 +189,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     loginAction,
     logUserInFacebook,
-    logUserInGitHub
+    logUserInGitHub,
+    changeRoute
 };
 export default connect(
     mapStateToProps,

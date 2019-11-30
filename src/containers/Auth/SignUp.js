@@ -2,12 +2,24 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions} from "react-native";
 import {registerAction} from "../../actions/userActions";
+import {changeRoute} from "../../actions/routerActions";
 import {connect} from "react-redux";
 const deviceWidth = Dimensions.get('window').width;
 class SignUp extends Component {
     static navigationOptions = {
         header: null,
     };
+    componentDidMount() {
+        const {changeRoute,navigation} = this.props;
+        navigation.addListener(
+            'willFocus',
+            payload => {
+                changeRoute(payload.state.routeName)
+
+            }
+        )
+    }
+
     state = {
         email:'',
         login:'',
@@ -24,7 +36,6 @@ class SignUp extends Component {
     render() {
         const {user,navigation}=this.props;
         const {email,login,password}=this.state;
-
         const load = user.loading ? <View style={styles.loadBlock}>
             <Text style={styles.loadText}>Loading...</Text>
         </View> : null;
@@ -163,6 +174,7 @@ const styles = StyleSheet.create({
 });
 SignUp.propTypes = {
     registerAction:PropTypes.func,
+    changeRoute:PropTypes.func,
     user: PropTypes.object,
 };
 
@@ -170,7 +182,8 @@ const mapStateToProps = state => ({
     user: state.user,
 });
 const mapDispatchToProps = {
-    registerAction
+    registerAction,
+    changeRoute
 };
 export default connect(
     mapStateToProps,
