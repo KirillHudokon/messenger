@@ -8,8 +8,8 @@ import LogOut from "../components/Auth/LogOut";
 
 class Settings extends Component {
     componentDidMount() {
-        const {changeRoute}=this.props;
-        this.props.navigation.addListener('willFocus', payload => {
+        const {changeRoute,navigation}=this.props;
+        navigation.addListener('willFocus', payload => {
                 changeRoute(payload.state.routeName)
             }
         );
@@ -27,12 +27,9 @@ class Settings extends Component {
 Settings.propTypes={
     changeRoute:PropTypes.func,
     logout:PropTypes.func,
-    router:PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-    router:state.router
-});
+const mapStateToProps = null;
 
 const mapDispatchToProps = {
     changeRoute,

@@ -4,8 +4,8 @@ import {changeRoute} from "../actions/routerActions";
 import {connect} from "react-redux";
 class Profile extends Component {
     componentDidMount() {
-        const {changeRoute}=this.props;
-        this.props.navigation.addListener('willFocus', payload => {
+        const {changeRoute,navigation}=this.props;
+        navigation.addListener('willFocus', payload => {
                 changeRoute(payload.state.routeName)
             }
         );
@@ -17,12 +17,9 @@ class Profile extends Component {
 }
 Profile.propTypes={
     changeRoute:PropTypes.func,
-    router:PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-    router:state.router
-});
+const mapStateToProps = null;
 
 const mapDispatchToProps = {
     changeRoute

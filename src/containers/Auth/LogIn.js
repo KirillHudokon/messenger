@@ -4,12 +4,9 @@ import {StyleSheet, Text, View,TouchableOpacity, TextInput, Dimensions} from "re
 import {loginAction,logUserInFacebook,logUserInGitHub} from "../../actions/userActions";
 import {changeRoute} from "../../actions/routerActions";
 import {connect} from "react-redux";
-
-
 const deviceWidth = Dimensions.get('window').width;
 
 class LogIn extends Component{
-
     static navigationOptions = {
         header: null,
     };

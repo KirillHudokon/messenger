@@ -1,20 +1,18 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {searchUserAction} from '../actions/routerActions'
 import {connect} from "react-redux";
 import {View, Text, TextInput, Dimensions, StyleSheet} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 const deviceWidth = Math.round(Dimensions.get('window').width);
 class NavigationHeader extends Component {
-    state={
-        searchText:''
-    };
-
     renderNavigationHeader(){
-        const {route}= this.props.router;
+        const {route,text,searchUserAction}= this.props;
         switch (route) {
             case 'AuthLoading':
             case 'Login':
             case 'Register':
+            case 'Chat':
                 return null;
             case 'Chats':
                 return (
@@ -24,8 +22,8 @@ class NavigationHeader extends Component {
                             <TextInput
                                 style={styles.searchInput}
                                 placeholder="Search for people"
-                                onChangeText={(searchText)=>this.setState({searchText})}
-                                value={this.state.text}
+                                onChangeText={(searchText)=>searchUserAction(searchText)}
+                                value={text}
                                 underlineColorAndroid="transparent"
                             />
                         </View>
@@ -97,14 +95,19 @@ const styles = StyleSheet.create({
     }
 });
 NavigationHeader.propTypes={
-    router:PropTypes.object,
+    route:PropTypes.string,
+    text:PropTypes.string,
+    searchUserAction:PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-    router:state.router
+    route:state.router.route,
+    text:state.router.text
 });
 
-const mapDispatchToProps = null;
+const mapDispatchToProps = {
+    searchUserAction
+};
 
 export default connect(
     mapStateToProps,

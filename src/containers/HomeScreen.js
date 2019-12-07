@@ -3,16 +3,19 @@ import {View, Text, ScrollView,StyleSheet, Dimensions,TouchableOpacity} from "re
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import ProfileChatImage from "../components/ProfileChatImage";
-import {changeRoute} from "../actions/routerActions";
+import {changeRoute,searchUserAction} from "../actions/routerActions";
 const deviceWidth = Math.round(Dimensions.get('window').width);
-const deviceHeight = Math.round(Dimensions.get('window').height);
+import {YellowBox} from 'react-native'
+YellowBox.ignoreWarnings([
+    'Remote debugger is in a background tab which may cause apps to perform slowly',
+    'Setting a timer for a long period of time, i.e. multiple minutes, is a performance and correctness issue on Android as it keeps the timer module awake, and timers can only be called when the app is in the foreground.'
+]);
 
 class HomeScreen extends Component {
     static navigationOptions = {
         header:null
     };
     state = {
-        x:false,
     };
     componentDidMount() {
         const {navigation,changeRoute}=this.props;
@@ -23,11 +26,33 @@ class HomeScreen extends Component {
             }
         );
     }
-    render() {
-        return this.state.x ? <ScrollView style={styles.container}>
-            <View style={styles.searchContainer}>
+
+    renderFoundedUsers(){
+        const {foundedUsers}=this.props;
+        if(foundedUsers.length){
+            let userView=foundedUsers.map(user => {
+                return(
+                    <View key={user.uid}>
+                        <Text>{user.uid}</Text>
+                    </View>
+                )
+            });
+            return <ScrollView>
+                {userView}
+            </ScrollView>
+        }else{
+            return <View style={styles.warningNoChats}>
+                <Text style={styles.warningTextNoChats}>Ничего не найдено</Text>
             </View>
-            <TouchableOpacity style={styles.chat}>
+        }
+    }
+    render() {
+        const {navigation,changeRoute,text}=this.props;
+        if(text.length) {
+            return this.renderFoundedUsers()
+        }
+        return this.state.x ? <ScrollView style={styles.container}>
+            <TouchableOpacity style={styles.chat} onPress={()=>navigation.push("Chat",{changeRoute, loh:'1'})}>
                 <View style={styles.imageContainer}>
                     <ProfileChatImage/>
                     <View style={styles.online}/>
@@ -54,13 +79,6 @@ class HomeScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-    searchContainer: {
-        width:deviceWidth,
-        height:deviceHeight*0.06,
-        backgroundColor:'blue',
-        alignItems:'center',
-        justifyContent:'center'
-    },
     imageContainer:{
         marginRight:10,
         position:'relative'
@@ -165,16 +183,19 @@ const styles = StyleSheet.create({
 HomeScreen.propTypes={
     changeRoute:PropTypes.func,
     user: PropTypes.object,
-    router:PropTypes.object,
+    text:PropTypes.string,
+    foundedUsers:PropTypes.array
 };
 
 const mapStateToProps = state => ({
     user: state.user,
-    router:state.router
+    text: state.router.text,
+    foundedUsers:state.router.foundedUsers
 });
 
 const mapDispatchToProps = {
-    changeRoute
+    changeRoute,
+    searchUserAction
 };
 
 

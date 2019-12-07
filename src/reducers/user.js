@@ -14,7 +14,6 @@ import {
 const initialState = {
     cred: null,
     error: '',
-    successfulMessage:'',
     loading:false
 };
 export function userReducer(state=initialState, action) {

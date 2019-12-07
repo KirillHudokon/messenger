@@ -12,12 +12,17 @@ import Profile from "./Profile";
 import Settings from "./Settings";
 import NavigationHeader from "./NavigationHeader";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Chat from "../components/Chat"
 const Chats = createStackNavigator({
     Chats: HomeScreen
 },{
     headerLayoutPreset: 'center',
 });
-
+const ChatScreen = createStackNavigator({
+    Chat
+},{
+    headerLayoutPreset: 'center',
+});
 const AuthStack = createStackNavigator({
     Login,
     Register
@@ -70,6 +75,7 @@ const Navigation = createAppContainer(
             AuthLoading: LoadingScreen,
             Auth: AuthStack,
             Home: TabNavigator,
+            Chat:ChatScreen,
         },
         {
             initialRouteName: 'AuthLoading',

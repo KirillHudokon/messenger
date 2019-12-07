@@ -32,11 +32,10 @@ LoadingScreen.propTypes={
     userListener:PropTypes.func,
     changeRoute:PropTypes.func,
     user: PropTypes.object,
-    router:PropTypes.object
 };
 const mapStateToProps = state => ({
     user: state.user,
-    router:state.router
+
 });
 
 const mapDispatchToProps = {
