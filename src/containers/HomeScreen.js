@@ -31,10 +31,26 @@ class HomeScreen extends Component {
         const {foundedUsers}=this.props;
         if(foundedUsers.length){
             let userView=foundedUsers.map(user => {
+                const {firstName,secondName,displayName}=user.data;
                 return(
-                    <View key={user.uid}>
-                        <Text>{user.uid}</Text>
-                    </View>
+                    <TouchableOpacity key={user.uid}>
+                        <View style={styles.user}>
+                            <View style={styles.image}>
+                                <ProfileChatImage/>
+                            </View>
+                            <View style={styles.infoContainer}>
+                                <View style={styles.userNameContainer}>
+                                    <Text style={styles.userFullName}>{firstName} {secondName}</Text>
+                                </View>
+                                <View style={styles.userDisplayNameContainer}>
+                                    <Text style={styles.userDisplayName}>@{displayName}</Text>
+                                </View>
+                            </View>
+                        </View>
+                        <View style={styles.borderRight}>
+                            <View style={styles.border}/>
+                        </View>
+                    </TouchableOpacity>
                 )
             });
             return <ScrollView>
@@ -178,6 +194,44 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height:'100%',
         justifyContent:'center',
+    },
+    user:{
+        width:'100%',
+        paddingLeft: 10,
+        paddingRight:10,
+        paddingTop: 10,
+        paddingBottom: 10,
+        flexDirection:'row',
+    },
+    image:{
+        marginRight: 10
+    },
+    infoContainer:{
+        width:'100%',
+        justifyContent:'space-around',
+    },
+    userNameContainer:{
+        flexDirection:'row'
+    },
+    userFullName:{
+        fontSize:17,
+        fontWeight: 'bold',
+    },
+    userDisplayNameContainer:{
+
+    },
+    userDisplayName:{
+        color: '#1093ff'
+    },
+    borderRight:{
+      width:'100%',
+      flexDirection:'row',
+      justifyContent:'flex-end',
+    },
+    border:{
+        width:deviceWidth-70,
+        height: 1,
+        backgroundColor: '#cac1d1',
     }
 });
 HomeScreen.propTypes={
