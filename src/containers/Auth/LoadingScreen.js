@@ -4,16 +4,18 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import fire from "../../config/Fire";
 import {changeRoute} from "../../actions/routerActions";
+import {userListener} from "../../actions/userActions";
 
 class LoadingScreen extends Component {
 
     componentDidMount() {
-        const {navigation,changeRoute}=this.props;
+        const {navigation,changeRoute,userListener}=this.props;
         navigation.addListener('willFocus', payload => {
                 changeRoute(payload.state.routeName)
             }
         );
         fire.auth().onAuthStateChanged(user => {
+            userListener(user);
             navigation.navigate(user ? 'Home' : 'Auth')
         })
     }
@@ -35,11 +37,11 @@ LoadingScreen.propTypes={
 };
 const mapStateToProps = state => ({
     user: state.user,
-
 });
 
 const mapDispatchToProps = {
-    changeRoute
+    changeRoute,
+    userListener
 };
 
 export default connect(

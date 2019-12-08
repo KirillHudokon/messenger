@@ -3,13 +3,15 @@ import {View, Text, ScrollView,StyleSheet, Dimensions,TouchableOpacity} from "re
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import ProfileChatImage from "../components/ProfileChatImage";
-import {changeRoute,searchUserAction} from "../actions/routerActions";
+import {changeRoute} from "../actions/routerActions";
+import {searchUserAction} from '../actions/chatActions'
 const deviceWidth = Math.round(Dimensions.get('window').width);
 import {YellowBox} from 'react-native'
 YellowBox.ignoreWarnings([
     'Remote debugger is in a background tab which may cause apps to perform slowly',
     'Setting a timer for a long period of time, i.e. multiple minutes, is a performance and correctness issue on Android as it keeps the timer module awake, and timers can only be called when the app is in the foreground.'
 ]);
+
 
 class HomeScreen extends Component {
     static navigationOptions = {
@@ -243,8 +245,8 @@ HomeScreen.propTypes={
 
 const mapStateToProps = state => ({
     user: state.user,
-    text: state.router.text,
-    foundedUsers:state.router.foundedUsers
+    text: state.chat.text,
+    foundedUsers:state.chat.foundedUsers
 });
 
 const mapDispatchToProps = {

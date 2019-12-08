@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {searchUserAction} from '../actions/routerActions'
+import {searchUserAction} from '../actions/chatActions'
 import {connect} from "react-redux";
 import {View, Text, TextInput, Dimensions, StyleSheet} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -102,7 +102,7 @@ NavigationHeader.propTypes={
 
 const mapStateToProps = state => ({
     route:state.router.route,
-    text:state.router.text
+    text:state.chat.text
 });
 
 const mapDispatchToProps = {

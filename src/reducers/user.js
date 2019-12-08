@@ -10,6 +10,8 @@ import {
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_FAIL,
+
+    USER_LISTENER_AUTH
 } from '../actions/userActions'
 const initialState = {
     cred: null,
@@ -39,6 +41,10 @@ export function userReducer(state=initialState, action) {
             return {...initialState};
         case LOGOUT_FAIL:
             return { ...state, loading:false, error: action.payload.message };
+
+        case USER_LISTENER_AUTH:
+            return { ...state, loading:false, cred: action.payload, error: ''};
+
         default:
             return state
     }

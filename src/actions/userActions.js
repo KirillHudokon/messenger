@@ -16,9 +16,8 @@ export const LOGOUT_REQUEST='LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS='LOGOUT_SUCCESS';
 export const LOGOUT_FAIL='LOGOUT_FAIL';
 
-export const USER_LISTENER_REQUEST_AUTH = 'USER_LISTENER_REQUEST_AUTH';
-export const USER_LISTENER_SUCCESS_AUTH = 'USER_LISTENER_SUCCESS_AUTH';
-export const USER_LISTENER_FAIL_AUTH = 'USER_LISTENER_FAIL_AUTH';
+export const USER_LISTENER_AUTH = 'USER_LISTENER_AUTH';
+
 
 
 const onLogRequest=()=>({
@@ -56,6 +55,11 @@ const onLogOutError=(error)=>({
     type: LOGOUT_FAIL,
     error: true,
     payload: error,
+});
+
+const onUserListener=(credentials)=>({
+    type: USER_LISTENER_AUTH,
+    payload:credentials
 });
 export const loginAction=(email,password)=>{
     return async dispatch=>{
@@ -111,7 +115,11 @@ export const logout=()=>{
         });
     }
 };
-
+export const userListener=(user)=>{
+    return dispatch => {
+        dispatch(onUserListener(user))
+    }
+};
 /*
 import { firebase } from '@firebase/app';
 
