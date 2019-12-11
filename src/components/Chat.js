@@ -1,21 +1,34 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, ScrollView, Dimensions,TextInput} from "react-native";
+import {View, Text, TouchableOpacity, StyleSheet, ScrollView, Dimensions, TextInput, Image} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 const deviceWidth = Math.round(Dimensions.get('window').width);
 class Chat extends Component {
    static navigationOptions = ({ navigation }) => {
-        return {
-            title:'заглушка',
-            headerLeft: () => (
-                <TouchableOpacity
-                    style={styles.backButtonContainer}
-                    onPress={()=>navigation.navigate('Chats')}
-
-                >
-                    <Icon name="arrow-left" size={25}/>
-                </TouchableOpacity>
-            ),
-        };
+       const user = navigation.getParam('user',null);
+       if(user) {
+           return {
+               title: user.data.displayName,
+               headerLeft: () => (
+                   <TouchableOpacity
+                       style={styles.backButtonContainer}
+                       onPress={() => navigation.navigate('Chats')}
+                   >
+                       <Icon name="arrow-left" size={25}/>
+                   </TouchableOpacity>
+               ),
+               headerRight: () => (
+                   <TouchableOpacity
+                       style={styles.imageContainer}
+                       onPress={() => navigation.navigate('Chats')}
+                   >
+                       <Image
+                           source={{uri:'https://facebook.github.io/react/logo-og.png'}}
+                           style={{width: 42, height: 42,borderRadius:22}}
+                       />
+                   </TouchableOpacity>
+               )
+           };
+       }
     };
     componentDidMount() {
         const {navigation}=this.props;
@@ -27,8 +40,16 @@ class Chat extends Component {
             }
         );
     }
+    handleActionClick=()=>{
+        const {navigation}=this.props;
+        const changeRoute = navigation.getParam('changeRoute',null);
+        changeRoute(this.state.searchText);
+        this.setState({
+            searchText:''
+        })
+    };
     state={
-        text:''
+        searchText:''
     };
 
     render() {
@@ -36,69 +57,6 @@ class Chat extends Component {
             <View style={styles.container}>
                 <ScrollView>
                     <View style={styles.messages}>
-                        <View style={styles.myMessage}>
-                            <View style={styles.myContent}>
-                                <Text style={styles.myText}>
-                                    asfkdhsakfhsakdfjhasdffsadfsadfsafsadfdsfasdfsdafsadfsadf
-                                </Text>
-                                <View style={styles.myData}>
-                                    <Text style={styles.myDate}>19:01</Text>
-                                    <Icon style={styles.statusMessage} name="arrow-left" size={12}/>
-                                </View>
-                            </View>
-                        </View>
-                        <View style={styles.anotherUserMessage}>
-                            <View style={styles.anotherUserContent}>
-                                <Text style={styles.anotherUserText}>
-                                    asfkdhsakfhsakdfjhasdffsadfsadfsafsadfdsfasdfsdafsadfsadf
-                                </Text>
-                                <View style={styles.anotherUserData}>
-                                    <Text style={styles.anotherUserDate}>19:01</Text>
-                                </View>
-                            </View>
-                        </View>
-                        <View style={styles.myMessage}>
-                            <View style={styles.myContent}>
-                                <Text style={styles.myText}>
-                                    asfkdhsakfhsakdfjhasdffsadfsadfsafsadfdsfasdfsdafsadfsadf
-                                </Text>
-                                <View style={styles.myData}>
-                                    <Text style={styles.myDate}>19:01</Text>
-                                    <Icon style={styles.statusMessage} name="arrow-left" size={12}/>
-                                </View>
-                            </View>
-                        </View>
-                        <View style={styles.anotherUserMessage}>
-                            <View style={styles.anotherUserContent}>
-                                <Text style={styles.anotherUserText}>
-                                    asfkdhsakfhsakdfjhasdffsadfsadfsafsadfdsfasdfsdafsadfsadf
-                                </Text>
-                                <View style={styles.anotherUserData}>
-                                    <Text style={styles.anotherUserDate}>19:01</Text>
-                                </View>
-                            </View>
-                        </View>
-                        <View style={styles.myMessage}>
-                            <View style={styles.myContent}>
-                                <Text style={styles.myText}>
-                                    asfkdhsakfhsakdfjhasdffsadfsadfsafsadfdsfasdfsdafsadfsadf
-                                </Text>
-                                <View style={styles.myData}>
-                                    <Text style={styles.myDate}>19:01</Text>
-                                    <Icon style={styles.statusMessage} name="arrow-left" size={12}/>
-                                </View>
-                            </View>
-                        </View>
-                        <View style={styles.anotherUserMessage}>
-                            <View style={styles.anotherUserContent}>
-                                <Text style={styles.anotherUserText}>
-                                    asfkdhsakfhsakdfjhasdffsadfsadfsafsadfdsfasdfsdafsadfsadf
-                                </Text>
-                                <View style={styles.anotherUserData}>
-                                    <Text style={styles.anotherUserDate}>19:01</Text>
-                                </View>
-                            </View>
-                        </View>
                         <View style={styles.myMessage}>
                             <View style={styles.myContent}>
                                 <Text style={styles.myText}>
@@ -130,10 +88,10 @@ class Chat extends Component {
                         style={styles.inputMessage}
                         placeholder="Message..."
                         onChangeText={(searchText)=>this.setState({searchText})}
-                        value={this.state.text}
+                        value={this.state.searchText}
                         underlineColorAndroid="transparent"
                     />
-                    <TouchableOpacity style={styles.displayButton}>
+                    <TouchableOpacity style={styles.displayButton} onPress={this.handleActionClick}>
                         <Icon name="paper-plane" size={25}/>
                     </TouchableOpacity>
                 </View>
@@ -238,11 +196,13 @@ const styles = StyleSheet.create({
         width:deviceWidth-100,
     },
     displayButton:{
-
         width:50,
         height:'100%',
         alignItems:'center',
         justifyContent:'center'
+    },
+    imageContainer:{
+        paddingRight: 5
     }
 });
 export default Chat;

@@ -54,6 +54,7 @@ export const searchUserAction=(text)=>{
                         });
                         if(!flag) {
                             let foundedUserData={
+                                chatUid:undefined,
                                 uid:doc.id,
                                 data:doc.data()
                             };

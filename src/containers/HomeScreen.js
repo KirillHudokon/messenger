@@ -30,17 +30,17 @@ class HomeScreen extends Component {
     }
 
     renderFoundedUsers(){
-        const {foundedUsers,loading}=this.props;
+        const {foundedUsers,loading,navigation,changeRoute}=this.props;
         if(loading){
-            return <View style={styles.warningNoChats}>
-                <Text style={styles.warningTextNoChats}>Загрузка...</Text>
+            return <View style={styles.loadChats}>
+                <Text style={styles.loadTextNoChats}>Загрузка...</Text>
             </View>
         }
         if(foundedUsers.length && !loading ){
             let userView=foundedUsers.map(user => {
                 const {firstName,secondName,displayName}=user.data;
                 return(
-                    <TouchableOpacity key={user.uid}>
+                    <TouchableOpacity key={user.uid} onPress={()=>navigation.push("Chat",{changeRoute, user})}>
                         <View style={styles.user}>
                             <View style={styles.image}>
                                 <ProfileChatImage/>
@@ -240,7 +240,16 @@ const styles = StyleSheet.create({
         width:deviceWidth-70,
         height: 1,
         backgroundColor: '#cac1d1',
-    }
+    },
+    loadChats:{
+        flex:1,
+        justifyContent:'center',
+        alignItems: 'center'
+    },
+    loadTextNoChats:{
+        color:'grey',
+        fontSize:16
+    },
 });
 HomeScreen.propTypes={
     changeRoute:PropTypes.func,
