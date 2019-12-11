@@ -30,8 +30,13 @@ class HomeScreen extends Component {
     }
 
     renderFoundedUsers(){
-        const {foundedUsers}=this.props;
-        if(foundedUsers.length){
+        const {foundedUsers,loading}=this.props;
+        if(loading){
+            return <View style={styles.warningNoChats}>
+                <Text style={styles.warningTextNoChats}>Загрузка...</Text>
+            </View>
+        }
+        if(foundedUsers.length && !loading ){
             let userView=foundedUsers.map(user => {
                 const {firstName,secondName,displayName}=user.data;
                 return(
@@ -58,7 +63,8 @@ class HomeScreen extends Component {
             return <ScrollView>
                 {userView}
             </ScrollView>
-        }else{
+        }
+        if(!foundedUsers.length && !loading ){
             return <View style={styles.warningNoChats}>
                 <Text style={styles.warningTextNoChats}>Ничего не найдено</Text>
             </View>
@@ -246,7 +252,8 @@ HomeScreen.propTypes={
 const mapStateToProps = state => ({
     user: state.user,
     text: state.chat.text,
-    foundedUsers:state.chat.foundedUsers
+    foundedUsers:state.chat.foundedUsers,
+    loading:state.chat.loading
 });
 
 const mapDispatchToProps = {

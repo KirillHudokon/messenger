@@ -37,9 +37,12 @@ export const searchUserAction=(text)=>{
         dispatch(changeUserText(text));
         dispatch(onSearchUserRequest());
         let foundedUsers=[];
-        await fire.firestore().collection("users").get().then( async querySnapshot => {
+        await fire.firestore()
+            .collection("users")
+            .where('displayName','==',text)
+            .get().then( async querySnapshot => {
             for(let doc of querySnapshot.docs){
-                if(doc.data().displayName===text && store.getState().user.cred.displayName!==text) {
+                if(store.getState().user.cred.displayName!==text) {
                     await fire.firestore().collection('users').doc(store.getState().user.cred.uid).get().then(userData=>{
                         let flag=false;
                         userData.data().friendList.forEach(item=>{
